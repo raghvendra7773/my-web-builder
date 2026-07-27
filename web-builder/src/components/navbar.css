@@ -1,0 +1,192 @@
+/* ==========================================================================
+   Web-Builder — navbar.css
+   Matches the given Navbar.jsx exactly: <nav> with 5 <NavLink> children,
+   no wrapper classes, no hamburger button. React Router's NavLink already
+   applies an "active" class on the current route — used below for the
+   active-link indicator, no JSX changes required.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&display=swap');
+
+/* ---------- Design tokens ---------- */
+:root {
+  --nav-bg: rgba(10, 17, 32, 0.6);
+  --nav-bg-solid: #0a1120;
+  --nav-border: rgba(148, 178, 224, 0.14);
+  --nav-blue: #4fb6ff;
+  --nav-teal: #38d4b8;
+  --nav-text: #eef3fb;
+  --nav-text-muted: #9aabc9;
+  --nav-shadow: 0 12px 40px -18px rgba(0, 0, 0, 0.6);
+
+  --nav-font-display: 'Space Grotesk', 'Segoe UI', sans-serif;
+  --nav-font-body: 'Inter', 'Segoe UI', sans-serif;
+  --nav-height: 76px;
+}
+
+/* ==========================================================================
+   NAV SHELL — sticky, glassmorphism, fade-in on load
+   ========================================================================== */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  height: var(--nav-height);
+  padding: 0 32px;
+
+  background: var(--nav-bg);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--nav-border);
+  box-shadow: var(--nav-shadow);
+
+  font-family: var(--nav-font-body);
+
+  opacity: 0;
+  transform: translateY(-12px);
+  animation: navFadeIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes navFadeIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  nav { animation: none; opacity: 1; transform: none; }
+}
+
+/* ==========================================================================
+   NAV LINKS
+   ========================================================================== */
+nav a {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+
+  padding: 10px 18px;
+  margin: 0 2px;
+  border-radius: 8px;
+
+  font-family: var(--nav-font-display);
+  font-weight: 600;
+  font-size: 0.94rem;
+  letter-spacing: 0.01em;
+  color: var(--nav-text-muted);
+  text-decoration: none;
+  white-space: nowrap;
+
+  transition: color 0.3s ease, background 0.3s ease, transform 0.25s ease;
+}
+
+/* Underline indicator, animates in from center on hover/active */
+nav a::after {
+  content: '';
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 6px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--nav-blue), var(--nav-teal));
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+nav a:hover {
+  color: var(--nav-text);
+  background: rgba(79, 182, 255, 0.08);
+  transform: translateY(-1px);
+}
+nav a:hover::after {
+  transform: scaleX(1);
+}
+
+nav a:focus-visible {
+  outline: 2px solid var(--nav-blue);
+  outline-offset: 2px;
+}
+
+/* Active route — applied automatically by React Router's NavLink */
+nav a.active {
+  color: var(--nav-text);
+  background: rgba(79, 182, 255, 0.1);
+}
+nav a.active::after {
+  transform: scaleX(1);
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+/* Tablet — tighten spacing slightly */
+@media (max-width: 1024px) {
+  nav {
+    padding: 0 20px;
+    gap: 4px;
+  }
+  nav a {
+    padding: 9px 14px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Mobile — wrap onto a centered second row, no page-level horizontal scroll.
+   No hamburger here: the JSX has no toggle button to drive one. */
+@media (max-width: 768px) {
+  nav {
+    height: auto;
+    min-height: var(--nav-height);
+    padding: 14px 16px;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  nav a {
+    padding: 8px 12px;
+    font-size: 0.86rem;
+    margin: 0;
+  }
+  nav a::after {
+    left: 12px;
+    right: 12px;
+    bottom: 3px;
+  }
+}
+
+/* Small mobile — compact further, allow horizontal scroll as a last resort
+   instead of wrapping to three cramped rows */
+@media (max-width: 420px) {
+  nav {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    mask-image: linear-gradient(90deg, #000 92%, transparent);
+  }
+  nav::-webkit-scrollbar { display: none; }
+  nav a {
+    padding: 8px 12px;
+    font-size: 0.82rem;
+  }
+}
+
+/* Large screens — a touch more breathing room */
+@media (min-width: 1440px) {
+  nav {
+    height: 84px;
+    gap: 12px;
+  }
+  nav a {
+    padding: 12px 22px;
+    font-size: 1rem;
+  }
+}

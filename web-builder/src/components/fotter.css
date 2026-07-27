@@ -1,0 +1,211 @@
+/* ==========================================================================
+   Web-Builder — fotter.css
+   Brand block removed. Structure: blockquote → hr → 4-column links → hr → copyright.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&display=swap');
+
+/* ---------- Design tokens ---------- */
+footer {
+  --f-bg: #080d18;
+  --f-surface: rgba(255, 255, 255, 0.03);
+  --f-border: rgba(148, 178, 224, 0.14);
+  --f-blue: #4fb6ff;
+  --f-teal: #38d4b8;
+  --f-amber: #f5b942;
+  --f-text: #eef3fb;
+  --f-text-muted: #93a2bd;
+  --f-text-faint: #5f6f8f;
+
+  --f-font-display: 'Space Grotesk', 'Segoe UI', sans-serif;
+  --f-font-body: 'Inter', 'Segoe UI', sans-serif;
+
+  display: block;
+  position: relative;
+  background: var(--f-bg);
+  color: var(--f-text-muted);
+  font-family: var(--f-font-body);
+  padding: 0 24px;
+  overflow: hidden;
+  text-align: left;
+
+  opacity: 0;
+  animation: footerFadeIn 0.8s ease forwards;
+}
+
+@keyframes footerFadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  footer { animation: none; opacity: 1; transform: none; }
+}
+
+/* Soft ambient glow, purely decorative */
+footer::before {
+  content: '';
+  position: absolute;
+  top: -120px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 300px;
+  background: radial-gradient(ellipse, rgba(79, 182, 255, 0.12), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ==========================================================================
+   DIVIDERS
+   ========================================================================== */
+footer hr {
+  position: relative;
+  z-index: 1;
+  max-width: 1180px;
+  margin: 24px auto;
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--f-border) 20%, var(--f-border) 80%, transparent);
+}
+footer hr:first-of-type { margin-top: 0; }
+
+/* ==========================================================================
+   OUTER CONSTRAINT — everything centers within this max-width
+   ========================================================================== */
+footer > blockquote,
+footer > hr,
+footer > .footer-links,
+footer > p {
+  position: relative;
+  z-index: 1;
+  max-width: 1180px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ==========================================================================
+   BLOCKQUOTE — premium brand statement (opening element)
+   ========================================================================== */
+footer > blockquote {
+  padding: 20px 28px;
+  margin-top: 32px;
+  margin-bottom: 0;
+  text-align: center;
+  font-family: var(--f-font-display);
+  font-weight: 500;
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  line-height: 1.45;
+  color: var(--f-text);
+
+  background: var(--f-surface);
+  border: 1px solid var(--f-border);
+  border-radius: 18px;
+  box-shadow: 0 20px 50px -28px rgba(0, 0, 0, 0.7);
+}
+
+footer > blockquote::before {
+  content: '"';
+  display: block;
+  font-size: 2rem;
+  line-height: 1;
+  margin-bottom: 4px;
+  color: var(--f-amber);
+  opacity: 0.85;
+}
+
+/* ==========================================================================
+   LINK COLUMNS — 4 equal columns
+   ========================================================================== */
+.footer-links {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: 32px;
+  row-gap: 32px;
+  margin-bottom: 0;
+}
+
+.footer-links > div {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.footer-links h3 {
+  margin: 0 0 16px;
+  font-family: var(--f-font-display);
+  font-weight: 600;
+  font-size: 0.92rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--f-text);
+  line-height: 1.2;
+  text-align: left;
+}
+
+.footer-links ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-links li {
+  font-size: 0.92rem;
+  color: var(--f-text-muted);
+  cursor: default;
+  width: fit-content;
+  transition: color 0.25s ease, transform 0.25s ease, padding-left 0.25s ease;
+}
+.footer-links li:hover {
+  color: var(--f-blue);
+  padding-left: 4px;
+}
+
+.footer-links p {
+  margin: 0 0 8px;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--f-text-muted);
+  text-align: left;
+  transition: color 0.25s ease;
+}
+.footer-links p:hover {
+  color: var(--f-teal);
+}
+
+/* ==========================================================================
+   COPYRIGHT
+   ========================================================================== */
+footer > p {
+  margin: 0;
+  padding-bottom: 20px;
+  text-align: center;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+  color: var(--f-text-faint);
+}
+
+/* ==========================================================================
+   TABLET (768–1023px) — link columns wrap to 2x2
+   ========================================================================== */
+@media (max-width: 1023px) {
+  .footer-links {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 28px;
+  }
+}
+
+/* ==========================================================================
+   MOBILE (< 768px) — single column
+   ========================================================================== */
+@media (max-width: 767px) {
+  footer { padding: 0 20px; }
+  footer > blockquote { margin-top: 24px; padding: 18px 20px; }
+  .footer-links {
+    grid-template-columns: 1fr;
+    row-gap: 24px;
+  }
+  footer > p { padding-bottom: 16px; }
+}

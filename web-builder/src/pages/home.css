@@ -1,0 +1,398 @@
+/* ==========================================================================
+   Web-Builder — home.css
+   Scope: everything is styled under .home-page. Since <Fotter /> renders
+   inside .home-page, make sure your Footer component has its own wrapping
+   element (e.g. <footer>) so these nth-of-type rules don't reach into it.
+   Palette: deep navy base, sky-blue → teal gradient accent, amber highlight.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+/* ---------- Global reset ----------
+   Prevents the default white body/root background from showing at the
+   edges — behind the floating blur shapes, on overscroll, or in any gap
+   left by browser default margins. Safe to keep even after Navbar/Footer
+   are added, since it only sets background + removes default spacing. */
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  background: #0a1120;
+}
+
+html {
+  overflow-x: hidden;
+}
+
+.home-page {
+  width: 100%;
+  min-height: 100vh;
+  /* ---------- Design tokens ---------- */
+  --bg: #0a1120;
+  --bg-soft: #0e1729;
+  --surface: rgba(255, 255, 255, 0.04);
+  --surface-solid: #121d33;
+  --border: rgba(148, 178, 224, 0.16);
+  --blue: #4fb6ff;
+  --teal: #38d4b8;
+  --amber: #f5b942;
+  --text: #eef3fb;
+  --text-muted: #9aabc9;
+  --text-faint: #66759a;
+
+  --font-display: 'Space Grotesk', 'Segoe UI', sans-serif;
+  --font-body: 'Inter', 'Segoe UI', sans-serif;
+
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --container: 1180px;
+  --shadow-soft: 0 24px 60px -24px rgba(0, 0, 0, 0.65);
+
+  position: relative;
+  overflow-x: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  scroll-behavior: smooth;
+}
+
+.home-page * { box-sizing: border-box; }
+
+/* ---------- Floating ambient background shapes ---------- */
+.home-page::before,
+.home-page::after {
+  content: '';
+  position: absolute;
+  width: 480px;
+  height: 480px;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.28;
+  pointer-events: none;
+  z-index: 0;
+  animation: drift 16s ease-in-out infinite;
+}
+.home-page::before {
+  top: -160px;
+  left: -120px;
+  background: radial-gradient(circle, var(--blue), transparent 70%);
+}
+.home-page::after {
+  top: 420px;
+  right: -160px;
+  background: radial-gradient(circle, var(--teal), transparent 70%);
+  animation-delay: -8s;
+}
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(40px, -30px) scale(1.08); }
+}
+
+/* ==========================================================================
+   HERO — h1 + first paragraph
+   ========================================================================== */
+.home-page h1 {
+  position: relative;
+  z-index: 1;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 130px 24px 20px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.1rem, 5vw, 3.6rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  text-align: center;
+
+  background: linear-gradient(120deg, var(--text) 20%, var(--blue) 55%, var(--teal) 85%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+
+  opacity: 0;
+  animation: fadeInUp 0.9s ease forwards;
+}
+
+.home-page p:nth-of-type(1) {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  margin: 0 auto 64px;
+  padding: 0 24px;
+  text-align: center;
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  line-height: 1.75;
+  color: var(--text-muted);
+
+  opacity: 0;
+  animation: fadeInUp 0.9s ease 0.15s forwards;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   SECTION A — "Transforming Ideas..." (h2 #1 + its paragraph)
+   ========================================================================== */
+.home-page h2:nth-of-type(1),
+.home-page h2:nth-of-type(1) + p {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 24px;
+  text-align: center;
+}
+
+.home-page h2:nth-of-type(1) {
+  margin-top: 40px;
+  padding-top: 56px;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  font-weight: 600;
+  color: var(--text);
+}
+.home-page h2:nth-of-type(1)::before {
+  content: '';
+  display: block;
+  width: 56px;
+  height: 3px;
+  margin: 0 auto 24px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--blue), var(--teal));
+}
+
+.home-page h2:nth-of-type(1) + p {
+  margin-top: 18px;
+  margin-bottom: 72px;
+  padding-bottom: 8px;
+  font-size: 1.02rem;
+  line-height: 1.8;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   SECTION B — "Our Promise" (h2 #2 + its paragraph) — glass banner
+   ========================================================================== */
+.home-page h2:nth-of-type(2),
+.home-page h2:nth-of-type(2) + p {
+  position: relative;
+  z-index: 1;
+  max-width: 880px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.home-page h2:nth-of-type(2) {
+  margin-top: 0;
+  padding: 44px 32px 4px;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.6vw, 1.85rem);
+  font-weight: 600;
+  color: var(--text);
+
+  background: var(--surface);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid var(--border);
+  border-bottom: none;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.home-page h2:nth-of-type(2) + p {
+  margin-top: 0;
+  margin-bottom: 72px;
+  padding: 4px 32px 40px;
+  text-align: center;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  font-size: clamp(0.95rem, 1.6vw, 1.08rem);
+  color: var(--amber);
+
+  background: var(--surface);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+
+/* ==========================================================================
+   SECTION C — "Trusted by Businesses..." (h2 #3 + its paragraph)
+   ========================================================================== */
+.home-page h2:nth-of-type(3),
+.home-page h2:nth-of-type(3) + p {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 24px;
+  text-align: center;
+}
+
+.home-page h2:nth-of-type(3) {
+  margin-top: 24px;
+  padding-top: 8px;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  font-weight: 600;
+  color: var(--text);
+}
+
+.home-page h2:nth-of-type(3) + p {
+  margin-top: 18px;
+  margin-bottom: 64px;
+  font-size: 1.02rem;
+  line-height: 1.8;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   BLOCKQUOTE — premium testimonial-style statement
+   ========================================================================== */
+.home-page blockquote {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto 96px;
+  padding: 48px 40px;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2.4vw, 1.6rem);
+  font-weight: 500;
+  font-style: normal;
+  line-height: 1.5;
+  color: var(--text);
+
+  background: linear-gradient(160deg, rgba(79, 182, 255, 0.08), rgba(56, 212, 184, 0.05));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+
+  opacity: 0;
+  animation: fadeIn 1s ease 0.2s forwards;
+}
+.home-page blockquote::before {
+  content: '“';
+  display: block;
+  font-family: var(--font-display);
+  font-size: 3rem;
+  line-height: 1;
+  margin-bottom: 8px;
+  color: var(--blue);
+  opacity: 0.6;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ==========================================================================
+   SLIDER — infinite auto-scrolling service showcase
+   ========================================================================== */
+.home-page .slider {
+  position: relative;
+  z-index: 1;
+  max-width: 100%;
+  margin: 0 0 100px;
+  padding: 48px 0;
+  overflow: hidden;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-soft);
+
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.home-page .slider-track {
+  display: flex;
+  gap: 22px;
+  width: max-content;
+  list-style: none;
+  margin: 0;
+  padding: 0 24px;
+  animation: scrollTrack 26s linear infinite;
+}
+
+.home-page .slider:hover .slider-track {
+  animation-play-state: paused;
+}
+
+@keyframes scrollTrack {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.home-page .slider-card {
+  flex: 0 0 auto;
+  min-width: 240px;
+  padding: 30px 26px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-display);
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: var(--text);
+  text-align: center;
+
+  background: var(--surface);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 12px 30px -16px rgba(0, 0, 0, 0.5);
+
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.35s ease,
+              box-shadow 0.35s ease;
+  animation: floatCard 5s ease-in-out infinite;
+}
+
+.home-page .slider-card:nth-child(odd) { animation-delay: -1.4s; }
+.home-page .slider-card:nth-child(3n) { animation-delay: -2.8s; }
+
+.home-page .slider-card:hover {
+  transform: translateY(-8px) scale(1.04);
+  border-color: rgba(79, 182, 255, 0.4);
+  box-shadow: 0 20px 40px -18px rgba(79, 182, 255, 0.45);
+}
+
+@keyframes floatCard {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-page::before,
+  .home-page::after,
+  .home-page h1,
+  .home-page p:nth-of-type(1),
+  .home-page blockquote,
+  .home-page .slider-track,
+  .home-page .slider-card {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+@media (max-width: 720px) {
+  .home-page h1 { padding-top: 100px; }
+  .home-page h2:nth-of-type(2) { padding: 34px 22px 4px; }
+  .home-page h2:nth-of-type(2) + p { padding: 4px 22px 32px; }
+  .home-page blockquote { padding: 36px 26px; margin-bottom: 72px; }
+  .home-page .slider { margin-bottom: 80px; padding: 36px 0; }
+  .home-page .slider-card { min-width: 200px; padding: 24px 20px; }
+}
+
+@media (max-width: 420px) {
+  .home-page h1 { padding-top: 90px; font-size: 1.9rem; }
+}

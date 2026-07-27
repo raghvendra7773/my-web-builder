@@ -1,0 +1,789 @@
+/* ==========================================================================
+   Web-Builder — about.css
+   Design language: "Signal Premium" — dark luxury digital-agency theme.
+   Deep near-black navy canvas, blue/cyan/purple gradient system,
+   glassmorphism cards, neon glow, horizontal zig-zag storytelling
+   timeline with a glowing connecting spine.
+
+   ALL selectors are scoped under .wb-about (or its descendants), and every
+   custom class is prefixed wb-about- — nothing here can affect Navbar,
+   Footer, Home, Contact, Services, or any other component.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap');
+
+/* ==========================================================================
+   0. ANIMATABLE CUSTOM PROPERTY (powers the rotating conic-gradient border)
+   ========================================================================== */
+@property --wb-spin {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+/* ==========================================================================
+   1. DESIGN TOKENS
+   ========================================================================== */
+.wb-about {
+  --wb-bg: #04060d;
+  --wb-bg-raised: #0a0f1e;
+  --wb-surface: rgba(255, 255, 255, 0.045);
+  --wb-surface-strong: rgba(255, 255, 255, 0.08);
+  --wb-border: rgba(255, 255, 255, 0.10);
+  --wb-border-strong: rgba(255, 255, 255, 0.24);
+
+  --wb-blue: #4f8bff;
+  --wb-cyan: #22d3ee;
+  --wb-purple: #a78bfa;
+
+  --wb-text: #f2f5fb;
+  --wb-text-muted: rgba(242, 245, 251, 0.68);
+  --wb-text-faint: rgba(242, 245, 251, 0.42);
+
+  --wb-font-display: 'Sora', 'Segoe UI', sans-serif;
+  --wb-font-body: 'Inter', 'Segoe UI', sans-serif;
+
+  --wb-radius: 24px;
+  --wb-radius-sm: 16px;
+  --wb-ease: cubic-bezier(0.19, 1, 0.22, 1);
+
+  --wb-gap: 110px;
+  --wb-gutter: 90px;
+  --wb-max: 1140px;
+
+  display: block;
+  position: relative;
+  background: var(--wb-bg);
+  color: var(--wb-text-muted);
+  font-family: var(--wb-font-body);
+  overflow-x: hidden;
+}
+
+/* ==========================================================================
+   2. AMBIENT BACKGROUND — blobs + floating particles
+   ========================================================================== */
+.wb-about-bgfx {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.wb-about-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(20px);
+}
+.wb-about-blob-1 {
+  top: -180px;
+  left: -160px;
+  width: 620px;
+  height: 620px;
+  background: radial-gradient(circle, rgba(79, 139, 255, 0.18), transparent 65%);
+  animation: wbBlobDrift 22s ease-in-out infinite;
+}
+.wb-about-blob-2 {
+  top: 30%;
+  right: -220px;
+  width: 560px;
+  height: 560px;
+  background: radial-gradient(circle, rgba(167, 139, 250, 0.15), transparent 65%);
+  animation: wbBlobDrift 26s ease-in-out infinite reverse;
+}
+.wb-about-blob-3 {
+  bottom: -200px;
+  left: 20%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.13), transparent 65%);
+  animation: wbBlobDrift 30s ease-in-out infinite;
+}
+@keyframes wbBlobDrift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(50px, 34px) scale(1.08); }
+}
+
+.wb-about-particle {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--wb-cyan);
+  opacity: 0.55;
+  filter: blur(0.5px);
+  animation: wbParticleFloat 12s ease-in-out infinite;
+}
+.wb-about-particle-1 { top: 12%; left: 8%;  animation-delay: 0s;   background: var(--wb-cyan); }
+.wb-about-particle-2 { top: 28%; left: 85%; animation-delay: -2s;  background: var(--wb-blue); }
+.wb-about-particle-3 { top: 55%; left: 15%; animation-delay: -4s;  background: var(--wb-purple); }
+.wb-about-particle-4 { top: 70%; left: 90%; animation-delay: -6s;  background: var(--wb-cyan); }
+.wb-about-particle-5 { top: 88%; left: 40%; animation-delay: -8s;  background: var(--wb-blue); }
+
+@keyframes wbParticleFloat {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0.4; }
+  50%      { transform: translateY(-26px) translateX(12px); opacity: 0.8; }
+}
+
+/* ==========================================================================
+   3. PAGE ENTRANCE + SHARED KEYFRAMES
+   ========================================================================== */
+.wb-about {
+  animation: wbPageIn 0.8s var(--wb-ease) forwards;
+  opacity: 0;
+}
+@keyframes wbPageIn { to { opacity: 1; } }
+
+@keyframes wbFadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes wbFadeInLeft {
+  from { opacity: 0; transform: translate(-40px, 18px); }
+  to   { opacity: 1; transform: translate(0, 0); }
+}
+@keyframes wbFadeInRight {
+  from { opacity: 0; transform: translate(40px, 18px); }
+  to   { opacity: 1; transform: translate(0, 0); }
+}
+@keyframes wbFloatA {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+@keyframes wbFloatB {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(10px); }
+}
+@keyframes wbGlowPulse {
+  0%, 100% { opacity: 0.55; }
+  50%      { opacity: 1; }
+}
+@keyframes wbSpinBorder { to { --wb-spin: 360deg; } }
+@keyframes wbShine {
+  0%   { transform: translateX(-120%) skewX(-14deg); }
+  100% { transform: translateX(220%) skewX(-14deg); }
+}
+@keyframes wbUnderlineDraw { to { transform: scaleX(1); } }
+
+/* ==========================================================================
+   4. HERO
+   ========================================================================== */
+.wb-about-hero {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 108px 24px 72px;
+  text-align: center;
+}
+
+.wb-about-eyebrow {
+  display: inline-block;
+  margin: 0 0 22px;
+  padding: 7px 18px;
+  font-family: var(--wb-font-display);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--wb-cyan);
+  background: rgba(34, 211, 238, 0.08);
+  border: 1px solid rgba(34, 211, 238, 0.28);
+  border-radius: 999px;
+
+  opacity: 0;
+  animation: wbFadeUp 0.7s var(--wb-ease) forwards;
+  animation-delay: 0.05s;
+}
+
+.wb-about-hero-title {
+  margin: 0 0 24px;
+  font-family: var(--wb-font-display);
+  font-weight: 700;
+  font-size: clamp(2.2rem, 5.6vw, 3.9rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--wb-text);
+
+  opacity: 0;
+  animation: wbFadeUp 0.8s var(--wb-ease) forwards;
+  animation-delay: 0.15s;
+}
+
+.wb-about-hero-title-accent {
+  background: linear-gradient(120deg, var(--wb-blue), var(--wb-cyan) 55%, var(--wb-purple));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: wbGradientShift 6s ease-in-out infinite;
+}
+@keyframes wbGradientShift {
+  0%, 100% { background-position: 0% center; }
+  50%      { background-position: 100% center; }
+}
+
+.wb-about-hero-sub {
+  max-width: 640px;
+  margin: 0 auto 44px;
+  font-size: clamp(1.02rem, 1.6vw, 1.18rem);
+  line-height: 1.8;
+  color: var(--wb-text-muted);
+
+  opacity: 0;
+  animation: wbFadeUp 0.8s var(--wb-ease) forwards;
+  animation-delay: 0.3s;
+}
+
+.wb-about-hero-stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+
+  opacity: 0;
+  animation: wbFadeUp 0.8s var(--wb-ease) forwards;
+  animation-delay: 0.45s;
+}
+
+.wb-about-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 18px 26px;
+  min-width: 150px;
+  background: var(--wb-surface);
+  border: 1px solid var(--wb-border);
+  border-radius: var(--wb-radius-sm);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: transform 0.3s var(--wb-ease), border-color 0.3s var(--wb-ease);
+}
+.wb-about-stat:hover {
+  transform: translateY(-4px);
+  border-color: var(--wb-border-strong);
+}
+
+.wb-about-stat-number {
+  font-family: var(--wb-font-display);
+  font-weight: 700;
+  font-size: 1.4rem;
+  background: linear-gradient(120deg, var(--wb-cyan), var(--wb-blue));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.wb-about-stat-label {
+  font-size: 0.78rem;
+  color: var(--wb-text-faint);
+  letter-spacing: 0.02em;
+}
+
+/* ==========================================================================
+   5. TIMELINE — shared node structure, spine, zig-zag
+   ========================================================================== */
+.wb-about-timeline {
+  position: relative;
+  z-index: 1;
+  max-width: var(--wb-max);
+  margin: 20px auto 0;
+  padding: 0 24px;
+}
+
+.wb-about-node,
+.wb-about-hub {
+  position: relative;
+  margin-bottom: var(--wb-gap);
+}
+
+/* glowing spine segment + connector node, drawn per timeline item */
+.wb-about-node::before,
+.wb-about-hub::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 3px;
+  height: calc(100% + var(--wb-gap));
+  background: linear-gradient(to bottom, var(--wb-blue), var(--wb-cyan), var(--wb-purple));
+  opacity: 0.55;
+  animation: wbGlowPulse 4s ease-in-out infinite;
+  z-index: -1;
+}
+.wb-about-node::after,
+.wb-about-hub::after {
+  content: '';
+  position: absolute;
+  top: 46px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  transform: translateY(-50%);
+  background: radial-gradient(circle, var(--wb-cyan), var(--wb-blue));
+  box-shadow: 0 0 0 6px rgba(34, 211, 238, 0.14), 0 0 22px 4px rgba(34, 211, 238, 0.45);
+  z-index: 0;
+}
+.wb-about-timeline > *:last-child::before {
+  height: 100%;
+}
+
+/* the glass card + rotating gradient border */
+.wb-about-node,
+.wb-about-mv-card,
+.wb-about-values {
+  --wb-spin: 0deg;
+  border-radius: var(--wb-radius);
+  border: 1.5px solid transparent;
+  background:
+    linear-gradient(var(--wb-bg-raised), var(--wb-bg-raised)) padding-box,
+    conic-gradient(from var(--wb-spin), var(--wb-blue), var(--wb-cyan), var(--wb-purple), var(--wb-blue)) border-box;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 42px 44px;
+  box-shadow: 0 30px 70px -36px rgba(0, 0, 0, 0.75);
+
+  animation: wbSpinBorder 8s linear infinite;
+  transition: transform 0.4s var(--wb-ease), box-shadow 0.4s var(--wb-ease);
+}
+
+.wb-about-node:hover,
+.wb-about-mv-card:hover,
+.wb-about-values:hover {
+  transform: translateY(-8px) scale(1.008);
+  box-shadow: 0 40px 90px -32px rgba(79, 139, 255, 0.32);
+}
+
+.wb-about-node-tag {
+  display: inline-block;
+  margin-bottom: 14px;
+  font-family: var(--wb-font-display);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--wb-cyan);
+}
+
+.wb-about-node h2 {
+  position: relative;
+  display: inline-block;
+  margin: 0 0 18px;
+  font-family: var(--wb-font-display);
+  font-weight: 700;
+  font-size: clamp(1.3rem, 2.3vw, 1.7rem);
+  line-height: 1.3;
+  color: var(--wb-text);
+}
+.wb-about-node h2::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  height: 3px;
+  width: 100%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--wb-blue), var(--wb-cyan));
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: wbUnderlineDraw 0.7s var(--wb-ease) forwards;
+  animation-delay: 0.4s;
+}
+
+.wb-about-node p {
+  max-width: 62ch;
+  margin: 0 0 14px;
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--wb-text-muted);
+}
+.wb-about-node p:last-child { margin-bottom: 0; }
+
+/* left / right placement */
+.wb-about-node-left {
+  width: calc(50% - var(--wb-gutter) / 2);
+  margin-left: 0;
+  margin-right: auto;
+  opacity: 0;
+  animation: wbFadeInLeft 0.8s var(--wb-ease) forwards, wbFloatA 7s ease-in-out infinite 0.9s;
+}
+.wb-about-node-left::before,
+.wb-about-node-left::after { right: calc(-1 * var(--wb-gutter) / 2 - 1.5px); }
+
+.wb-about-node-right {
+  width: calc(50% - var(--wb-gutter) / 2);
+  margin-left: auto;
+  margin-right: 0;
+  opacity: 0;
+  animation: wbFadeInRight 0.8s var(--wb-ease) forwards, wbFloatB 7.5s ease-in-out infinite 0.9s;
+}
+.wb-about-node-right::before,
+.wb-about-node-right::after { left: calc(-1 * var(--wb-gutter) / 2 - 1.5px); }
+
+.wb-about-timeline > .wb-about-node:nth-of-type(1) { animation-delay: 0.05s, 0.85s; }
+.wb-about-timeline > .wb-about-node:nth-of-type(2) { animation-delay: 0.15s, 0.95s; }
+.wb-about-timeline > .wb-about-node:nth-of-type(3) { animation-delay: 0.25s, 1.05s; }
+
+/* ==========================================================================
+   6. PROCESS STEPS (inside the "Our Development Process" node)
+   ========================================================================== */
+.wb-about-process-list {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.wb-about-process-step {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+}
+
+.wb-about-process-num {
+  flex-shrink: 0;
+  font-family: var(--wb-font-display);
+  font-weight: 800;
+  font-size: 1.1rem;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--wb-bg);
+  background: linear-gradient(135deg, var(--wb-cyan), var(--wb-blue));
+  box-shadow: 0 0 18px 2px rgba(34, 211, 238, 0.35);
+}
+
+.wb-about-process-step h3 {
+  margin: 4px 0 6px;
+  font-family: var(--wb-font-display);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--wb-text);
+}
+.wb-about-process-step p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: var(--wb-text-muted);
+}
+
+/* ==========================================================================
+   7. HUBS — Mission/Vision + Core Values, full width, spine centered
+   ========================================================================== */
+.wb-about-hub {
+  width: 100%;
+  opacity: 0;
+  animation: wbFadeUp 0.85s var(--wb-ease) forwards, wbFloatA 8s ease-in-out infinite 1s;
+  animation-delay: 0.3s, 1.1s;
+  background: none;
+  border: none;
+  padding: 0;
+  box-shadow: none;
+}
+.wb-about-hub::before,
+.wb-about-hub::after {
+  left: 50%;
+  right: auto;
+  transform: translate(-50%, -50%);
+}
+
+.wb-about-mv {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+.wb-about-mv-card {
+  display: flex;
+  flex-direction: column;
+}
+.wb-about-mv-card p { flex: 1; }
+
+@media (min-width: 768px) {
+  .wb-about-mv { grid-template-columns: 1fr 1fr; }
+}
+
+/* ==========================================================================
+   8. CORE VALUES
+   ========================================================================== */
+.wb-about-values {
+  padding: 56px 50px 48px;
+  text-align: center;
+}
+.wb-about-values-tag { display: block; }
+.wb-about-values-title {
+  display: block;
+  font-size: clamp(1.6rem, 3vw, 2.15rem);
+  margin-bottom: 44px;
+}
+.wb-about-values-title::after {
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  animation: wbUnderlineDrawCenter 0.7s var(--wb-ease) forwards;
+  animation-delay: 0.4s;
+}
+@keyframes wbUnderlineDrawCenter {
+  to { transform: translateX(-50%) scaleX(1); }
+}
+
+.wb-about-values-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+  text-align: left;
+}
+
+.wb-about-value-card {
+  position: relative;
+  overflow: hidden;
+  background: var(--wb-surface);
+  border: 1px solid var(--wb-border);
+  border-radius: var(--wb-radius-sm);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 30px 26px 26px;
+
+  animation: wbFloatA 6s ease-in-out infinite;
+  transition: transform 0.35s var(--wb-ease), border-color 0.35s var(--wb-ease), box-shadow 0.35s var(--wb-ease);
+}
+.wb-about-value-card:nth-of-type(2n) { animation-name: wbFloatB; animation-duration: 6.6s; }
+.wb-about-value-card:nth-of-type(3n) { animation-duration: 7.2s; }
+
+.wb-about-value-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--wb-blue), var(--wb-cyan), var(--wb-purple));
+  opacity: 0.75;
+}
+
+/* shine sweep on hover */
+.wb-about-value-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(115deg, transparent, rgba(255,255,255,0.10), transparent);
+  transform: translateX(-120%) skewX(-14deg);
+  pointer-events: none;
+}
+.wb-about-value-card:hover::after {
+  animation: wbShine 0.9s var(--wb-ease);
+}
+
+.wb-about-value-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  border-color: var(--wb-border-strong);
+  box-shadow: 0 26px 56px -26px rgba(79, 139, 255, 0.35);
+}
+
+.wb-about-value-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 16px;
+  border-radius: 12px;
+  color: var(--wb-cyan);
+  background: rgba(34, 211, 238, 0.10);
+  border: 1px solid rgba(34, 211, 238, 0.25);
+  animation: wbFloatB 4.5s ease-in-out infinite;
+}
+.wb-about-value-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.wb-about-value-card h3 {
+  margin: 0 0 8px;
+  font-family: var(--wb-font-display);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--wb-text);
+}
+.wb-about-value-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--wb-text-muted);
+}
+
+/* ==========================================================================
+   9. FINAL CTA
+   ========================================================================== */
+.wb-about-cta {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 40px auto 110px;
+  padding: 60px 44px;
+  text-align: center;
+
+  background: var(--wb-surface-strong);
+  border: 1px solid var(--wb-border-strong);
+  border-radius: var(--wb-radius);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 40px 100px -40px rgba(79, 139, 255, 0.3);
+
+  opacity: 0;
+  animation: wbFadeUp 0.85s var(--wb-ease) forwards;
+  animation-delay: 0.2s;
+}
+
+.wb-about-cta h2 {
+  margin: 0 0 16px;
+  font-family: var(--wb-font-display);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  color: var(--wb-text);
+}
+.wb-about-cta p {
+  max-width: 520px;
+  margin: 0 auto 32px;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--wb-text-muted);
+}
+
+.wb-about-cta-btn {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 32px;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+
+  font-family: var(--wb-font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--wb-bg);
+
+  background: linear-gradient(120deg, var(--wb-blue), var(--wb-cyan) 60%, var(--wb-purple));
+  background-size: 220% auto;
+  box-shadow: 0 20px 50px -18px rgba(79, 139, 255, 0.55);
+  transition: transform 0.3s var(--wb-ease), background-position 0.6s var(--wb-ease), box-shadow 0.3s var(--wb-ease);
+}
+.wb-about-cta-btn:hover {
+  transform: translateY(-3px);
+  background-position: 100% center;
+  box-shadow: 0 26px 60px -16px rgba(79, 139, 255, 0.65);
+}
+.wb-about-cta-btn:active { transform: translateY(-1px) scale(0.98); }
+
+.wb-about-cta-btn-icon {
+  display: inline-block;
+  transition: transform 0.3s var(--wb-ease);
+}
+.wb-about-cta-btn:hover .wb-about-cta-btn-icon { transform: translateX(5px); }
+
+.wb-about-cta-btn::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -60%;
+  width: 40%; height: 100%;
+  background: linear-gradient(115deg, transparent, rgba(255,255,255,0.4), transparent);
+  transform: skewX(-16deg);
+  transition: left 0.7s var(--wb-ease);
+}
+.wb-about-cta-btn:hover::after { left: 130%; }
+
+/* ==========================================================================
+   10. RESPONSIVE
+   ========================================================================== */
+@media (min-width: 1440px) {
+  .wb-about { --wb-max: 1240px; --wb-gutter: 120px; }
+}
+@media (min-width: 2560px) {
+  .wb-about { font-size: 1.1rem; --wb-max: 1380px; }
+}
+
+@media (max-width: 1023px) {
+  .wb-about-values-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 767px) {
+  .wb-about { --wb-gap: 68px; }
+
+  .wb-about-hero { padding: 76px 20px 48px; }
+  .wb-about-hero-stats { gap: 12px; }
+  .wb-about-stat { min-width: 130px; padding: 14px 18px; }
+
+  .wb-about-timeline { padding: 0 20px 0 26px; }
+
+  .wb-about-node-left,
+  .wb-about-node-right {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .wb-about-node::before,
+  .wb-about-node::after,
+  .wb-about-hub::before,
+  .wb-about-hub::after {
+    left: -18px !important;
+    right: auto !important;
+    transform: translateY(-50%) !important;
+  }
+  .wb-about-hub::after { transform: translateY(-50%) !important; }
+
+  .wb-about-node,
+  .wb-about-mv-card {
+    padding: 30px 26px;
+  }
+  .wb-about-values { padding: 40px 22px 30px; }
+  .wb-about-values-grid { grid-template-columns: 1fr; gap: 18px; }
+
+  .wb-about-cta { padding: 44px 26px; margin: 30px auto 80px; }
+}
+
+@media (max-width: 479px) {
+  .wb-about-timeline { padding: 0 14px 0 22px; }
+  .wb-about-node,
+  .wb-about-mv-card { padding: 24px 20px; }
+}
+
+/* ==========================================================================
+   11. MOTION PREFERENCES
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .wb-about,
+  .wb-about-blob,
+  .wb-about-particle,
+  .wb-about-eyebrow,
+  .wb-about-hero-title,
+  .wb-about-hero-title-accent,
+  .wb-about-hero-sub,
+  .wb-about-hero-stats,
+  .wb-about-node,
+  .wb-about-hub,
+  .wb-about-node::before,
+  .wb-about-node::after,
+  .wb-about-hub::before,
+  .wb-about-hub::after,
+  .wb-about-node h2::after,
+  .wb-about-values-title::after,
+  .wb-about-value-card,
+  .wb-about-value-icon,
+  .wb-about-cta {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .wb-about-node,
+  .wb-about-mv-card,
+  .wb-about-values,
+  .wb-about-value-card,
+  .wb-about-cta-btn {
+    transition: none;
+  }
+}

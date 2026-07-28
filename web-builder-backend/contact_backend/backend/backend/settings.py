@@ -1,7 +1,7 @@
 import os
 
 # SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-j+vsi0t8k#5u5=r6rm6(1hu&do-kp3)lj-b0$q4j@leg6s-cu4')
-SECRET_KEY = os.environ.get("SECRET_KEY")
+
 
 """
 Django settings for backend project.
@@ -26,11 +26,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = 'django-insecure-j+vsi0t8k#5u5=r6rm6(lhu&do-kp3)!j-b0$q4j@!eg6s-cu4'
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY",
+    "django-insecure-j+vsi0t8k#5u5=r6rm6(lhu&do-kp3)!j-b0$q4j@!eg6s-cu4"
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG = True
 DEBUG = False
 
 ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
     ".onrender.com",
 ]
 

@@ -35,7 +35,11 @@ function Contact() {
         message: "",
       });
     } catch (error) {
-      alert("Error Sending Message");
+      console.log("FULL ERROR:", error);
+      console.log("RESPONSE:", error.response);
+      console.log("DATA:", error.response?.data);
+
+      alert(JSON.stringify(error.response?.data));
     }
   };
 

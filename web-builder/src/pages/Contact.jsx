@@ -35,11 +35,13 @@ function Contact() {
         message: "",
       });
     } catch (error) {
-      console.log("FULL ERROR:", error);
-      console.log("RESPONSE:", error.response);
-      console.log("DATA:", error.response?.data);
+      console.log(error);
 
-      alert(JSON.stringify(error.response?.data));
+      alert(
+        error.response?.data?.error ||
+        error.message ||
+        "Unknown Error"
+      );
     }
   };
 

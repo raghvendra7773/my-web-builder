@@ -167,7 +167,8 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
 CORS_ALLOWED_ORIGINS = [
-    "https://my-web-builder-swart.vercel.app"
+    "https://my-web-builder-swart.vercel.app",
+    "https://my-web-builder-git-main-web-builder3.vercel.app",
 ]
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"

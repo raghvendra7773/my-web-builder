@@ -1,9 +1,7 @@
-# 
-
-
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.core.mail import send_mail
+from django.conf import settings
 from .models import Contact
 
 
@@ -15,7 +13,17 @@ def contact_view(request):
         phone = request.data.get("phone")
         message = request.data.get("message")
 
-        # Save contact data to database
+        # Validate required fields
+        if not name or not email or not message:
+            return Response(
+                {
+                    "success": False,
+                    "error": "Name, Email and Message are required."
+                },
+                status=400
+            )
+
+        # Save data in database
         Contact.objects.create(
             name=name,
             email=email,
@@ -23,7 +31,7 @@ def contact_view(request):
             message=message
         )
 
-        # Send email to your Gmail
+        # Send email notification
         send_mail(
             subject="New Website Inquiry",
             message=f"""
@@ -35,19 +43,25 @@ Phone: {phone}
 
 Message:
 {message}
-""",
-            from_email="webbuilder465@gmail.com",
-            recipient_list=["webbuilder465@gmail.com"],
+            """,
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[settings.EMAIL_HOST_USER],
             fail_silently=False,
         )
 
-        return Response({
-            "success": True,
-            "message": "Message sent successfully"
-        })
+        return Response(
+            {
+                "success": True,
+                "message": "Message sent successfully"
+            },
+            status=200
+        )
 
     except Exception as e:
-        return Response({
-            "success": False,
-            "error": str(e)
-        }, status=500)
+        return Response(
+            {
+                "success": False,
+                "error": str(e)
+            },
+            status=500
+        )

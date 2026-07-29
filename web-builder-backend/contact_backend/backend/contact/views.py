@@ -44,8 +44,8 @@ Phone: {phone}
 Message:
 {message}
             """,
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[settings.EMAIL_HOST_USER],
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=["webbuilder465@gmail.com"],
             fail_silently=False,
         )
 

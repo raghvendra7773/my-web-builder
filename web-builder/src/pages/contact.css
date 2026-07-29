@@ -1,4 +1,666 @@
 /* ==========================================================================
+   Web-Builder — contact.css
+   Fully isolated: every rule is scoped under .contact-page, so nothing here
+   can leak into Navbar, Home, About, Services, Projects, Footer, or any
+   future component — even the bare-tag selectors (h2, p, ul) only apply
+   as descendants of a .contact-page class, never globally.
+   Continues the site's "Blueprint" identity (dark navy / blue-teal-amber,
+   Space Grotesk + Inter).
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+/* ==========================================================================
+   1. DESIGN TOKENS — scoped to .contact-page only
+   ========================================================================== */
+.contact-page {
+  --c-bg: #080d18;
+  --c-bg-raised: #0d1526;
+  --c-surface: rgba(255, 255, 255, 0.035);
+  --c-surface-hover: rgba(255, 255, 255, 0.065);
+  --c-border: rgba(148, 178, 224, 0.14);
+  --c-border-strong: rgba(148, 178, 224, 0.34);
+
+  --c-blue: #4fb6ff;
+  --c-teal: #38d4b8;
+  --c-amber: #f5b942;
+
+  --c-text: #eef3fb;
+  --c-text-muted: #93a2bd;
+  --c-text-faint: #5f6f8f;
+
+  --c-font-display: 'Space Grotesk', 'Segoe UI', sans-serif;
+  --c-font-body: 'Inter', 'Segoe UI', sans-serif;
+
+  --c-radius: 18px;
+  --c-radius-sm: 12px;
+  --c-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  position: relative;
+  display: block;
+  background: var(--c-bg);
+  color: var(--c-text-muted);
+  font-family: var(--c-font-body);
+  overflow-x: hidden; /* prevents ambient effects from causing scroll */
+  padding-bottom: 96px;
+}
+
+/* ==========================================================================
+   2. AMBIENT BACKGROUND — animated gradient + floating glow blobs
+   ========================================================================== */
+.contact-page::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 55% 40% at 15% 0%, rgba(79, 182, 255, 0.12), transparent 60%),
+    radial-gradient(ellipse 50% 35% at 90% 10%, rgba(56, 212, 184, 0.09), transparent 60%),
+    radial-gradient(ellipse 45% 30% at 50% 100%, rgba(245, 185, 66, 0.05), transparent 60%);
+  background-size: 200% 200%;
+  animation: contactGradientDrift 24s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes contactGradientDrift {
+  0%, 100% { background-position: 0% 0%, 100% 0%, 50% 100%; }
+  50%      { background-position: 20% 20%, 80% 25%, 55% 85%; }
+}
+
+.contact-page::after {
+  /* faint blueprint grid, echoes the rest of the site */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--c-border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--c-border) 1px, transparent 1px);
+  background-size: 64px 64px;
+  opacity: 0.09;
+  pointer-events: none;
+  z-index: 0;
+  mask-image: radial-gradient(ellipse 80% 55% at 50% 0%, black 35%, transparent 100%);
+}
+
+/* floating glow blobs behind the hero */
+.contact-page .contact-hero::before,
+.contact-page .contact-hero::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(64px);
+  pointer-events: none;
+  z-index: 0;
+  animation: contactFloatBlob 16s ease-in-out infinite;
+}
+.contact-page .contact-hero::before {
+  top: -40px;
+  left: 8%;
+  width: 220px;
+  height: 220px;
+  background: rgba(79, 182, 255, 0.14);
+}
+.contact-page .contact-hero::after {
+  top: 20px;
+  right: 8%;
+  width: 200px;
+  height: 200px;
+  background: rgba(56, 212, 184, 0.12);
+  animation-delay: -8s;
+}
+
+@keyframes contactFloatBlob {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  50%      { transform: translateY(-20px) translateX(14px); }
+}
+
+/* ==========================================================================
+   3. LOAD-IN ANIMATIONS
+   ========================================================================== */
+@keyframes contactFadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes contactSlideInLeft {
+  from { opacity: 0; transform: translateX(-28px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes contactSlideInRight {
+  from { opacity: 0; transform: translateX(28px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.contact-page .fade-up {
+  opacity: 0;
+  animation: contactFadeUp 0.7s var(--c-ease) forwards;
+}
+.contact-page .slide-in-left {
+  opacity: 0;
+  animation: contactSlideInLeft 0.8s var(--c-ease) forwards;
+}
+.contact-page .slide-in-right {
+  opacity: 0;
+  animation: contactSlideInRight 0.8s var(--c-ease) forwards;
+  animation-delay: 0.1s;
+}
+
+/* stagger hero text elements */
+.contact-page .contact-hero > .contact-eyebrow   { animation-delay: 0.05s; }
+.contact-page .contact-hero > .contact-title     { animation-delay: 0.12s; }
+.contact-page .contact-hero > .contact-intro     { animation-delay: 0.20s; }
+.contact-page .contact-hero > .contact-trust-note{ animation-delay: 0.28s; }
+
+/* stagger the three info cards */
+.contact-page .contact-info-column > .info-card:nth-of-type(1) { animation-delay: 0.25s; }
+.contact-page .contact-info-column > .info-card:nth-of-type(2) { animation-delay: 0.34s; }
+.contact-page .contact-info-column > .info-card:nth-of-type(3) { animation-delay: 0.43s; }
+
+/* ==========================================================================
+   4. HERO
+   ========================================================================== */
+.contact-page .contact-hero {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 88px 24px 56px;
+  text-align: center;
+}
+
+.contact-page .contact-eyebrow {
+  display: inline-block;
+  margin: 0 0 18px;
+  padding: 6px 16px;
+  font-family: var(--c-font-display);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-teal);
+  background: rgba(56, 212, 184, 0.08);
+  border: 1px solid rgba(56, 212, 184, 0.25);
+  border-radius: 999px;
+}
+
+.contact-page .contact-title {
+  margin: 0 0 20px;
+  font-family: var(--c-font-display);
+  font-weight: 700;
+  font-size: clamp(2rem, 4.8vw, 3.3rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+
+  background: linear-gradient(120deg, var(--c-text) 20%, var(--c-blue) 65%, var(--c-teal) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 60px rgba(79, 182, 255, 0.2);
+}
+
+.contact-page .contact-intro {
+  max-width: 560px;
+  margin: 0 auto 16px;
+  font-size: clamp(1rem, 1.5vw, 1.1rem);
+  line-height: 1.75;
+  color: var(--c-text-muted);
+}
+
+.contact-page .contact-trust-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 8px 18px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--c-amber);
+  background: rgba(245, 185, 66, 0.07);
+  border: 1px solid rgba(245, 185, 66, 0.22);
+  border-radius: 999px;
+}
+
+/* ==========================================================================
+   5. MAIN TWO-COLUMN LAYOUT
+   ========================================================================== */
+.contact-page .contact-layout {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ==========================================================================
+   6. INFO COLUMN
+   ========================================================================== */
+.contact-page .contact-info-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.contact-page .info-card {
+  position: relative;
+  padding: 28px 30px;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--c-radius);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 20px 50px -32px rgba(0, 0, 0, 0.75);
+  transition: transform 0.35s var(--c-ease), border-color 0.35s var(--c-ease), box-shadow 0.35s var(--c-ease);
+}
+
+.contact-page .info-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--c-border-strong);
+  box-shadow: 0 28px 64px -30px rgba(0, 0, 0, 0.85);
+}
+
+.contact-page .info-card h2 {
+  margin: 0 0 10px;
+  font-family: var(--c-font-display);
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: var(--c-text);
+}
+
+.contact-page .info-card > p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--c-text-muted);
+}
+
+.contact-page .benefits-card h3,
+.contact-page .response-card-text h3 {
+  margin: 0 0 14px;
+  font-family: var(--c-font-display);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--c-text);
+}
+
+.contact-page .benefits-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.contact-page .benefit-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--c-text-muted);
+}
+
+.contact-page .benefit-marker {
+  flex-shrink: 0;
+  margin-top: 6px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--c-blue), var(--c-teal));
+  box-shadow: 0 0 10px rgba(79, 182, 255, 0.4);
+}
+
+.contact-page .response-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.contact-page .response-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  font-size: 1.3rem;
+  color: var(--c-amber);
+  background: rgba(245, 185, 66, 0.08);
+  border: 1px solid rgba(245, 185, 66, 0.24);
+  border-radius: 50%;
+  animation: contactIconFloat 5s ease-in-out infinite;
+}
+
+@keyframes contactIconFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}
+
+.contact-page .response-card-text p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: var(--c-text-muted);
+}
+
+/* ==========================================================================
+   7. FORM COLUMN — card, header, progress
+   ========================================================================== */
+.contact-page .contact-form-column {
+  display: flex;
+}
+
+.contact-page .contact-form-card {
+  position: relative;
+  width: 100%;
+  padding: 36px 38px 32px;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--c-radius);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 26px 64px -30px rgba(0, 0, 0, 0.8);
+  transition: border-color 0.35s var(--c-ease), box-shadow 0.35s var(--c-ease);
+}
+
+.contact-page .contact-form-card:hover {
+  border-color: var(--c-border-strong);
+}
+
+.contact-page .form-card-header h2 {
+  margin: 0 0 8px;
+  font-family: var(--c-font-display);
+  font-weight: 600;
+  font-size: 1.4rem;
+  color: var(--c-text);
+}
+
+.contact-page .form-card-subtext {
+  margin: 0 0 22px;
+  font-size: 0.92rem;
+  color: var(--c-text-muted);
+}
+
+.contact-page .form-progress-track {
+  position: relative;
+  height: 3px;
+  margin-bottom: 26px;
+  border-radius: 999px;
+  background: rgba(148, 178, 224, 0.12);
+  overflow: hidden;
+}
+
+.contact-page .form-progress-fill {
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--c-blue), var(--c-teal));
+  animation: contactProgressShimmer 3.2s ease-in-out infinite;
+}
+
+@keyframes contactProgressShimmer {
+  0%, 100% { transform: translateX(-10%); opacity: 0.75; }
+  50%      { transform: translateX(120%); opacity: 1; }
+}
+
+/* ==========================================================================
+   8. FORM FIELDS — field-card, label, input, textarea, focus-glow
+   ========================================================================== */
+.contact-page .contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.contact-page .field-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 18px;
+  background: var(--c-bg-raised);
+  border: 1px solid var(--c-border);
+  border-radius: var(--c-radius-sm);
+  transition: border-color 0.3s var(--c-ease), background 0.3s var(--c-ease), box-shadow 0.3s var(--c-ease);
+}
+
+.contact-page .field-card:hover {
+  border-color: var(--c-border-strong);
+}
+
+/* the "premium glow" focus effect — triggers via :focus-within so clicking
+   anywhere in the card, not just the input, activates it */
+.contact-page .field-card.focus-glow:focus-within {
+  background: var(--c-surface-hover);
+  border-color: var(--c-blue);
+  box-shadow: 0 0 0 3px rgba(79, 182, 255, 0.14), 0 12px 30px -18px rgba(79, 182, 255, 0.35);
+}
+
+.contact-page .field-label {
+  font-family: var(--c-font-display);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--c-text-faint);
+  transition: color 0.3s var(--c-ease);
+}
+
+.contact-page .field-card.focus-glow:focus-within .field-label {
+  color: var(--c-teal);
+}
+
+.contact-page .field-input,
+.contact-page .field-textarea {
+  width: 100%;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-family: var(--c-font-body);
+  font-size: 0.98rem;
+  color: var(--c-text);
+  caret-color: var(--c-blue);
+}
+
+.contact-page .field-input::placeholder,
+.contact-page .field-textarea::placeholder {
+  color: var(--c-text-faint);
+  transition: opacity 0.25s var(--c-ease), transform 0.25s var(--c-ease);
+}
+
+.contact-page .field-input:focus::placeholder,
+.contact-page .field-textarea:focus::placeholder {
+  opacity: 0.6;
+  transform: translateX(3px);
+}
+
+.contact-page .field-textarea {
+  resize: none; /* keeps the layout predictable, no manual resize scroll issues */
+  line-height: 1.6;
+  min-height: 110px;
+}
+
+.contact-page .field-card-textarea {
+  padding-bottom: 14px;
+}
+
+/* ==========================================================================
+   9. SUBMIT BUTTON
+   ========================================================================== */
+.contact-page .submit-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 6px;
+  padding: 15px 28px;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  overflow: hidden;
+
+  font-family: var(--c-font-display);
+  font-weight: 600;
+  font-size: 0.98rem;
+  color: var(--c-bg);
+
+  background: linear-gradient(120deg, var(--c-blue), var(--c-teal) 70%, var(--c-blue));
+  background-size: 220% auto;
+  background-position: 0% center;
+
+  transition: transform 0.3s var(--c-ease), box-shadow 0.3s var(--c-ease), background-position 0.6s var(--c-ease);
+  box-shadow: 0 16px 40px -18px rgba(79, 182, 255, 0.55);
+}
+
+.contact-page .submit-btn:hover {
+  transform: translateY(-3px);
+  background-position: 100% center;
+  box-shadow: 0 22px 50px -16px rgba(79, 182, 255, 0.65);
+}
+
+.contact-page .submit-btn:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+.contact-page .submit-btn-icon {
+  display: inline-block;
+  transition: transform 0.3s var(--c-ease);
+}
+
+.contact-page .submit-btn:hover .submit-btn-icon {
+  transform: translateX(5px);
+}
+
+/* shine sweep across the button on hover */
+.contact-page .submit-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(115deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: skewX(-16deg);
+  transition: left 0.7s var(--c-ease);
+  pointer-events: none;
+}
+.contact-page .submit-btn:hover::after {
+  left: 130%;
+}
+
+.contact-page .form-microcopy {
+  margin: 4px 0 0;
+  font-size: 0.8rem;
+  text-align: center;
+  color: var(--c-text-faint);
+}
+
+/* ==========================================================================
+   10. RESPONSIVE — mobile-first, 320px up through 4K
+   ========================================================================== */
+
+/* Tablet (768px+) */
+@media (min-width: 768px) {
+  .contact-page .contact-hero {
+    padding: 104px 32px 64px;
+  }
+  .contact-page .contact-layout {
+    padding: 0 32px;
+  }
+}
+
+/* Laptop (1024px+) — two-column layout activates here */
+@media (min-width: 1024px) {
+  .contact-page .contact-layout {
+    grid-template-columns: 0.85fr 1.15fr;
+    align-items: start;
+    gap: 40px;
+  }
+  .contact-page .contact-form-card {
+    padding: 42px 44px 36px;
+  }
+}
+
+/* Desktop (1440px+) */
+@media (min-width: 1440px) {
+  .contact-page .contact-layout {
+    max-width: 1280px;
+    gap: 48px;
+  }
+  .contact-page .contact-hero {
+    max-width: 780px;
+  }
+}
+
+/* Large screens / 4K (2560px+) */
+@media (min-width: 2560px) {
+  .contact-page .contact-layout {
+    max-width: 1480px;
+  }
+  .contact-page {
+    font-size: 1.08rem;
+  }
+}
+
+/* Mobile refinements (below 768px) */
+@media (max-width: 767px) {
+  .contact-page .contact-hero {
+    padding: 64px 20px 40px;
+  }
+  .contact-page .contact-layout {
+    padding: 0 20px;
+    gap: 20px;
+  }
+  .contact-page .info-card {
+    padding: 22px 22px;
+  }
+  .contact-page .contact-form-card {
+    padding: 28px 22px 26px;
+  }
+  .contact-page .field-card {
+    padding: 14px 16px;
+  }
+}
+
+/* Small mobile (below 400px) */
+@media (max-width: 399px) {
+  .contact-page .contact-title {
+    font-size: 1.8rem;
+  }
+  .contact-page .response-card {
+    flex-direction: column;
+  }
+}
+
+/* ==========================================================================
+   11. MOTION PREFERENCES
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .contact-page,
+  .contact-page .fade-up,
+  .contact-page .slide-in-left,
+  .contact-page .slide-in-right,
+  .contact-page .contact-hero::before,
+  .contact-page .contact-hero::after,
+  .contact-page .response-icon,
+  .contact-page .form-progress-fill,
+  .contact-page .submit-btn::after {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .contact-page .info-card,
+  .contact-page .field-card,
+  .contact-page .submit-btn {
+    transition: none;
+  }
+}
+
+/* ==========================================================================
    12. FLOATING WHATSAPP BUTTONS
    ========================================================================== */
 .contact-page .whatsapp-float-group {

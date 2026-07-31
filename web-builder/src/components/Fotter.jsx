@@ -17,7 +17,7 @@ const Fotter = () => {
             <li>Home</li>
             <li>About Us</li>
             <li>Services</li>
-            <li>Projects</li>
+            {/* <li>Projects</li> */}
             <li>Contact</li>
           </ul>
         </div>
@@ -45,7 +45,7 @@ const Fotter = () => {
             <li>LinkedIn</li>
             <li>GitHub</li>
             <li>Instagram</li>
-            <li>Facebook</li>
+            {/* <li>Facebook</li> */}
           </ul>
         </div>
       </div>
